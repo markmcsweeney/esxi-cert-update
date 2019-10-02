@@ -1,23 +1,5 @@
 #!/bin/bash
 
-#########################################################################
-#
-# 2019.10.02
-#
-# This script compares the local cert start date with the main cert
-# start date. If the main cert is newer, it is copied to the ESXi
-# cert store and services.sh is reloaded. Tested working on ESXi 5.5 and 6.0
-#
-# LetsEncrypt is assumed to have been installed on cert generation server.
-#
-# If /var/log/cert/renew does not exist, create it manually. Will look how
-# to force creation later.
-#
-# NOTE: systemd is assumed. Change accordingly if sysV is used.
-# NOTE: script also assumes Apache, if different change accordingly.
-#
-#########################################################################
-
 # Create variables for use in scripts
 
 ESXI="SET ESXI HOSTNAME HERE" #ESXi hostname
