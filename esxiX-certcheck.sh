@@ -15,7 +15,8 @@ ESXICERT=$(date -d "`echo | openssl s_client -servername ${IP} -connect ${IP}:44
 if [ "$LOCALCERT" == "$ESXICERT" ]; then
   echo "Cert for $ESXI not due for renewal today `date '+%Y-%m-%d'`." >> /var/log/cert/renew.log
 
-## Changed 'services.sh restart to only '/etc/init.d/hostd restart' due to error: "Invalid operation requested: This ruleset is required and cannot be disabled" on ESXi 6.5 and >.
+## Changed 'services.sh restart to only '/etc/init.d/hostd restart' due to error:
+## "Invalid operation requested: This ruleset is required and cannot be disabled" on ESXi 6.5 and greater.
 
   else
    scp -i PATHTOSSHKEY /etc/letsencrypt/live/"$ESXI"."$DOMAINNAME"/fullchain.pem root@"$IP":/etc/vmware/ssl/rui.crt | \
