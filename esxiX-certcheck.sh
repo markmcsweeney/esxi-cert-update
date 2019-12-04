@@ -18,7 +18,9 @@ if [ "$LOCALCERT" == "$ESXICERT" ]; then
   else
    scp -i PATHTOSSHKEY /etc/letsencrypt/live/"$ESXI"."$DOMAINNAME"/fullchain.pem root@"$IP":/etc/vmware/ssl/rui.crt | \
    scp -i PATHTOSSHKEY -p /etc/letsencrypt/live/"$ESXI"."$DOMAINNAME"/privkey.pem root@"$IP":/etc/vmware/ssl/rui.key | \
-   ssh -i PATHTOSSHKEY root@"$IP" 'services.sh restart' > /dev/null 2>&1 | \
+   ##ssh -i PATHTOSSHKEY root@"$IP" 'services.sh restart' > /dev/null 2>&1 | \
+   ssh -i PATHTOSSHKEY root@"$IP" '/etc/init.d/hostd restart' > /dev/null 2>&1 | \
+   ssh -i PATHTOSSHKEY root@"$IP" '/etc/init.d/vpxa restart' > /dev/null 2>&1 | \
    echo "SSL Certificate for $ESXI.$DOMAINNAME was updated on "`date '+%Y-%m-%d'`' at '`date '+%R %Z'`'.' | \
    mail -s "SSL Certificate for $ESXI.$DOMAINNAME has been updated" SETEMAILHERE -aFrom:'SET FROM EMAIL NAME HERE<SETFROMEMAILHERE>'
 
