@@ -9,10 +9,10 @@ PATHTOSSHKEY="SET PAT TO SSH KEY HERE" # SSH key location
 
 # Compare LetsEncrypt generated cert with cert present on ESXi host in question.
 
-LOCALCERT=$(date -d "`openssl x509 -in /etc/letsencrypt/live/$ESXI.$DOMAINNAME/fullchain.pem -noout -startdate | cut -c11-`" +%s)
-ESXICERT=$(date -d "`echo | openssl s_client -servername ${IP} -connect ${IP}:443 2>/dev/null | openssl x509 -noout -startdate | cut -c11-`" +%s)
+LOCALCERT="$(date -d "`openssl x509 -in /etc/letsencrypt/live/"$ESXI"."$DOMAINNAME"/fullchain.pem -noout -startdate | cut -c11-`" +%s)"
+ESXICERT="$(date -d "`echo | openssl s_client -servername "$IP" -connect "$IP":443 2>/dev/null | openssl x509 -noout -startdate | cut -c11-`" +%s)"
 
-if [ "$LOCALCERT" == "$ESXICERT" ]; then
+if [ "$LOCALCERT" -eq "$ESXICERT" ]; then
   echo "Cert for $ESXI.$DOMAINNAME not due for renewal today "`date '+%Y-%m-%d'`' at '`date '+%R %Z'`"." >> /var/log/cert/renew.log
 
 ## Changed 'services.sh restart to only '/etc/init.d/hostd restart' due to error:
